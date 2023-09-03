@@ -21,3 +21,10 @@ jobs:
     - name: Checkin
       run: |
         python ./main.py 
+
+env: 
+  #设置secrets的环境变量
+    EMAIL: ${{ secrets.EMAIL }}
+    BASE_URL: ${{ secrets.BASE_URL }}
+    PASSWORD: ${{ secrets.PASSWORD }}
+    SCKEY: ${{ secrets.SCKEY }}
