@@ -10,43 +10,30 @@ TG_USER_ID = os.environ.get('TGUSERID')
 
 def checkin(email=os.environ.get('EMAIL'), password=os.environ.get('PASSWORD'),
             base_url=os.environ.get('BASE_URL'), ):
-    subemail = email.split("|")
-    suburl = base_url.split("|")
-    subpwd = password.split("|")
-    length = len(subemail)
-    i = 0
-    while(i<length)
-    {
-                
-                print(subemail[i])
-                print(suburl[i])
-                print(subpwd[i])
-                subemail1 = subemail[i].split('@')
-                subemail[i] = subemail1[0] + '%40' + subemail1[1]
-                session = requests.session()
-                session.get(suburl[i], verify=False)
-                login_url = suburl[i] + '/auth/login'
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) '
-                                  'AppleWebKit/537.36 (KHTML, like Gecko) '
-                                  'Chrome/56.0.2924.87 Safari/537.36',
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                }
-                post_data = 'email=' + subemail[i] + '&passwd=' + subpwd[i] + '&code='
-                post_data = post_data.encode()
-                response = session.post(login_url, post_data, headers=headers, verify=False)
-                headers = {
-                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) '
-                                  'AppleWebKit/537.36 (KHTML, like Gecko) '
-                                  'Chrome/56.0.2924.87 Safari/537.36',
-                    'Referer': base_url + '/user'
-                }
-                response = session.post(base_url + '/user/checkin', headers=headers,
-                                        verify=False)
-                response = json.loads(response.text)
-                print(response['msg'])
-                i=i+1
+    email = email.split('@')
+    email = email[0] + '%40' + email[1]
+    session = requests.session()
+    session.get(base_url, verify=False)
+    login_url = base_url + '/auth/login'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) '
+                      'AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/56.0.2924.87 Safari/537.36',
+        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
     }
+    post_data = 'email=' + email + '&passwd=' + password + '&code='
+    post_data = post_data.encode()
+    response = session.post(login_url, post_data, headers=headers, verify=False)
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) '
+                      'AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/56.0.2924.87 Safari/537.36',
+        'Referer': base_url + '/user'
+    }
+    response = session.post(base_url + '/user/checkin', headers=headers,
+                            verify=False)
+    response = json.loads(response.text)
+    print(response['msg'])
     return response['msg']
 
 
